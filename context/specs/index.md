@@ -39,7 +39,7 @@ Completion criteria:
 Tasks:
 
 1. Keep `context/` files current.
-2. Clarify in `README.md` that VTE is a fallback/reference backend and Ghostty/custom is the product direction.
+2. Clarify in `README.md` that VTE is a temporary scaffold/reference backend and Ghostty/custom is the product direction.
 3. Add developer instructions for default build, Ghostty build, and known Ghostty dependency blockers.
 4. Document current limitations honestly.
 5. Convert this roadmap into smaller implementation specs as work begins.
@@ -112,10 +112,10 @@ Tasks:
    - resize
    - copy/paste
    - shutdown
-2. Keep VTE backend as a reference implementation.
+2. Keep VTE backend as a temporary scaffold/reference implementation.
 3. Implement Ghostty backend through the same app-level lifecycle where possible.
 4. Avoid forcing custom renderer concepts into the VTE backend.
-5. Add backend selection through Cargo features first, and possibly runtime selection later.
+5. Add backend selection through Cargo features first. Do not design runtime backend switching unless VTE is deliberately reclassified as a permanent supported backend.
 
 Completion criteria:
 

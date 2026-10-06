@@ -6,7 +6,7 @@ Arclet Terminal is a Rust-based GTK4 terminal emulator project. The long-term go
 
 The project currently has two backend paths:
 
-1. **VTE backend** — default, working, and useful as a stable reference implementation.
+1. **VTE backend** — default, working, and useful as a temporary scaffold/reference while the custom backend is not yet viable.
 2. **Ghostty/libghostty-vt backend** — prototype backend intended to become the product's real engine once native dependency and rendering work is mature.
 
 ## Goals
@@ -33,7 +33,7 @@ The project currently has two backend paths:
 ### Current Features
 
 - GTK4 application window.
-- Default VTE terminal widget backend.
+- Default VTE terminal widget scaffold backend.
 - Shell spawning through VTE in the default backend.
 - Optional Ghostty/libghostty-vt prototype backend.
 - PTY-backed shell in the Ghostty backend using `portable-pty`.
@@ -82,4 +82,4 @@ The project currently has two backend paths:
 4. Renderer can display styled text with acceptable performance.
 5. Renderer can display Kitty graphics protocol images in grid-correct positions.
 6. Architecture remains modular enough to improve backend, renderer, and UI independently.
-7. Project documentation accurately reflects which backend is production-ready versus prototype.
+7. Project documentation accurately reflects that VTE is a temporary scaffold and the custom backend is the product path.

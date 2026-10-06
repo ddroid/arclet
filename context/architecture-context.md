@@ -7,7 +7,7 @@
 | Language | Rust 2024 | Application, terminal engine integration, PTY, rendering glue |
 | Desktop UI | GTK4 Rust bindings | Native Linux app lifecycle, windows, widgets, input controllers |
 | Event loop | GLib | GTK main loop, timers, async callbacks |
-| Default terminal backend | VTE GTK4 | Working fallback/reference terminal widget |
+| Default terminal backend | VTE GTK4 | Temporary working scaffold/reference terminal widget |
 | Target terminal core | libghostty-vt | VT parsing, terminal state, scrollback, modes, effects callbacks |
 | PTY | portable-pty | Shell spawning and PTY I/O for custom backend |
 | Prototype renderer | GTK4 DrawingArea + Cairo | Basic text rendering for Ghostty backend prototype |
@@ -35,7 +35,7 @@ Responsibilities handled by VTE:
 - Text rendering.
 - Selection, clipboard, scrollback, resize behavior.
 
-VTE is a fallback/reference implementation, not the final product engine for Kitty-class features.
+VTE is a temporary scaffold/reference implementation, not the final product engine for Kitty-class features. Do not design long-term architecture around preserving VTE as a permanent supported backend unless that decision is explicitly revisited.
 
 ### Ghostty/libghostty-vt Backend
 
@@ -114,7 +114,7 @@ Until a config format is defined, avoid adding persistent state casually.
 ## Invariants
 
 1. Default build must remain usable unless a task explicitly targets backend replacement.
-2. VTE is not the final architecture for Kitty-level feature parity.
+2. VTE is a temporary scaffold, not the final architecture for Kitty-level feature parity.
 3. Terminal parsing/state, PTY I/O, rendering, and GTK shell should remain separate concerns.
 4. All GTK widget access must happen on the main thread.
 5. `libghostty-vt` terminal objects are not `Send`/`Sync`; keep them owned by the GTK main thread.
