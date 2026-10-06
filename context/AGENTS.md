@@ -17,13 +17,14 @@ If implementation changes the architecture, backend strategy, feature scope, ren
 
 ## Product Direction
 
-Arclet Terminal is not intended to remain a thin VTE wrapper. VTE is allowed as a working fallback/reference backend, but the long-term product direction is a custom GTK4 terminal emulator powered by Ghostty/libghostty-vt or equivalent modern terminal-core components.
+Arclet Terminal is not intended to remain a thin VTE wrapper. VTE is allowed as a temporary working scaffold/reference backend while the custom backend is not yet viable, but the long-term product direction is a custom GTK4 terminal emulator powered by Ghostty/libghostty-vt or equivalent modern terminal-core components.
 
 The target capability level is Kitty-class terminal functionality, including modern keyboard handling, images, graphics protocols, scrollback, tabs/splits eventually, rich styling, and high-performance rendering.
 
 ## Critical Agent Rules
 
 - Do not silently replace the Ghostty/custom backend direction with VTE-only work.
+- Do not design long-term architecture around VTE as a permanent fallback unless that decision is explicitly revisited.
 - Do not treat the current Cairo renderer as final architecture.
 - Do not add terminal features without considering protocol correctness, renderer implications, and PTY behavior.
 - Prefer verifiable increments: compile, run smoke tests, and document limitations.
