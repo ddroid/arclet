@@ -33,21 +33,30 @@ Update this file whenever the current phase, active feature, or implementation s
 - Updated README to describe VTE as the default temporary scaffold and Ghostty/custom as the product path.
 - Added `context/research/power-user-terminal-feature-matrix.md`.
 - Added `context/research/backend-renderer-recommendation-report.md`.
+- **Phase 3 Source Architecture Refactor Complete:**
+  - Modularized subsystems under `src/`:
+    - `src/app/`: `MainWindow`, `TabManager` (GTK4 Notebook multi-tab), `TerminalPane` (GTK4 Paned splits).
+    - `src/backend/`: `TerminalBackend` trait decoupling UI from emulation engines with factory `create_backend`.
+    - `src/backend/vte/`: VTE reference backend implementation.
+    - `src/backend/alacritty/`: Native Rust terminal emulation backend (`alacritty_terminal` 0.26) with Cairo rendering, dynamic resize, and Kitty image placement hooks.
+    - `src/pty/`: `PtySession` abstraction with `portable-pty` managing lifecycle, thread-safe master resize, and background async reader.
+    - `src/input/`: `ShortcutManager` (keybindings map) and `KittyKeyboardEncoder` (Kitty keyboard protocol / VT escape sequences).
+    - `src/graphics/`: `KittyParser` (Kitty Graphics Protocol escape parser), `ImageRegistry` (image cache and grid placement tracking), and `KittyGraphicsInterceptor` (in-stream APC extractor).
+    - `src/config/`: `TerminalConfig`, `ColorScheme` (Arclet Dark theme palette), and `KeybindingConfig`.
+- Configured keybindings: `Ctrl+Shift+T` (new tab), `Ctrl+Shift+W` (close tab), `Ctrl+Shift+D` (split horizontal), `Ctrl+Shift+E` (split vertical), `Ctrl+PageDown`/`Ctrl+PageUp` (tab navigation), `Ctrl+Shift+C`/`Ctrl+Shift+V` (copy/paste), `Ctrl++`/`Ctrl+-`/`Ctrl+0` (zoom controls).
+- Added comprehensive unit tests in `tests/subsystems_test.rs` passing cleanly.
 
 ## In Progress
 
-- Planning the next implementation unit from the research reports and `context/specs/index.md`, starting with PTY resize/lifecycle correctness and renderer scene extraction.
+- GPU acceleration renderer prototyping (`GLArea` + OpenGL) for high-performance glyph atlas and Kitty graphics texture rendering.
+- Kitty graphics pixel decoding (PNG/RGBA) into GPU textures.
 
 ## Next Up
 
-1. Add helper commands/scripts for default and Ghostty builds.
-2. Refactor source layout into clearer modules: app, backend, pty, input, render, graphics.
-3. Add a dedicated `PtySession` abstraction and implement PTY resize propagation in the Ghostty backend.
-4. Fix Ghostty backend build blockers when `deps.files.ghostty.org` downloads are reachable or a vendoring/cache strategy is chosen.
-5. Introduce a renderer-independent scene extraction layer using `libghostty-vt::RenderState` where viable.
-6. Replace prototype Cairo row rendering with a GTK Snapshot/Pango correctness renderer.
-7. Prototype a GTK4 `GLArea` + OpenGL renderer behind a feature flag.
-8. Write a dedicated Kitty graphics architecture spec before implementing images.
+1. Replace prototype Cairo text renderer in the custom backend with a GTK Snapshot / Pango or OpenGL `GLArea` renderer.
+2. Complete Kitty graphics texture upload and rendering onto the terminal canvas.
+3. Add configuration file loading (`~/.config/arclet/config.toml`).
+4. Session persistence and search bar overlay.
 
 ## Open Questions
 
