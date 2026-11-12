@@ -41,13 +41,6 @@ The Ghostty path may require network access for native dependency downloads perf
 | :---: | :---: |
 | ![Split Panes](screenshots/04_after_split_panes.png) | ![Alacritty Backend](screenshots/05_after_alacritty_backend.png) |
 
-<details>
-<summary>Initial Scaffold Prototype (Before Refactor)</summary>
-
-![Initial Scaffold](screenshots/01_before_scaffold.png)
-
-</details>
-
 ## Current Status
 
 The application has been refactored into modular subsystems under `src/`:
