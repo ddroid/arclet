@@ -31,21 +31,33 @@ PATH="$PWD/.tools/zig:$PATH" cargo run --no-default-features --features ghostty
 
 The Ghostty path may require network access for native dependency downloads performed by `libghostty-vt-sys`.
 
+## Screenshots
+
+| Single Session (Tokyo Night Theme) | Multi-Tab Management |
+| :---: | :---: |
+| ![Single Session](screenshots/02_after_single_session.png) | ![Multi-Tab Session](screenshots/03_after_multitab.png) |
+
+| Split Panes (Horizontal & Vertical) | Native Rust Engine (Alacritty) |
+| :---: | :---: |
+| ![Split Panes](screenshots/04_after_split_panes.png) | ![Alacritty Backend](screenshots/05_after_alacritty_backend.png) |
+
+<details>
+<summary>Initial Scaffold Prototype (Before Refactor)</summary>
+
+![Initial Scaffold](screenshots/01_before_scaffold.png)
+
+</details>
+
 ## Current Status
 
-Default backend:
+The application has been refactored into modular subsystems under `src/`:
 
-- GTK4 application window.
-- Working shell through VTE.
-- VTE-provided terminal emulation, rendering, scrollback, selection, clipboard, and resize behavior.
-
-Custom backend prototype:
-
-- Optional Ghostty/libghostty-vt parser/state experiment.
-- PTY-backed shell through `portable-pty`.
-- Basic Cairo text rendering.
-- Basic keyboard input mapping.
-- Known incomplete areas: reliable native build path, PTY resize propagation to the child process, robust input encoding, styled rendering, selection, scrollback UX, graphics/image support, and renderer performance.
+- **Modular UI (`src/app/`)**: GTK4 `MainWindow` with custom HeaderBar, `TabManager` (GTK4 Notebook multi-tab), and `TerminalPane` (GTK4 Paned recursive horizontal/vertical splits).
+- **Pluggable Backends (`src/backend/`)**: Decoupled `TerminalBackend` trait with support for both VTE and native Rust `alacritty_terminal` (0.26).
+- **PTY Management (`src/pty/`)**: Thread-safe `PtySession` abstraction using `portable-pty` managing lifecycle, master resize, and background async reader threads.
+- **Shortcuts & Input (`src/input/`)**: `ShortcutManager` mapping key combinations (`Ctrl+Shift+T`, `Ctrl+Shift+W`, `Ctrl+Shift+D`, `Ctrl+Shift+E`, etc.) and `KittyKeyboardEncoder`.
+- **Graphics Subsystem (`src/graphics/`)**: `KittyGraphicsInterceptor` APC escape extractor, `KittyParser` protocol decoder, and `ImageRegistry` placement cache.
+- **Styling (`src/config/`)**: Tokyo Night / Arclet Dark palette (`#1a1b26` background, `#c0caf5` foreground, 16 ANSI colors).
 
 ## Product Direction
 
@@ -58,3 +70,4 @@ The immediate focus is to validate the custom backend foundation before advanced
 3. Replace direct Cairo row drawing with a renderer-independent scene model.
 4. Choose a renderer technology that can support styled text, cursor, selection, scrollback, and future grid-positioned images.
 5. Design Kitty-compatible graphics support before implementation.
+
